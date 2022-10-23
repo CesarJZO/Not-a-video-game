@@ -2,34 +2,45 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CamaraJugado : MonoBehaviour
+public class movJugador : MonoBehaviour
 {
-    public float sensX;
-    public float sensY;
-    public Transform orientacion;
+    [Header("Movement")]
+    public float moveSpeed;
+    public Transform orientation;
+    float horzontalInput;
+    float verticalInput;
+    Vector3 moveDirection;
+    Rigidbody rb;
 
-    float xRotacion;
-    float yRotacion;
+    private void Start()
+    {
+        rb =GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+    }
     
-    private void Start(){
-        Cursor.lockState= CursorLockMode.Locked;
-        Cursor.visible= false;
+    private void Update ()
+    {
+        MyInput();
     }
 
-    private void Update(){
-        float mouseX=Input.GetAxis("Mouse X")*Time.deltaTime *sensX;
-        float mouseY=Input.GetAxis("Mouse Y")*Time.deltaTime *sensY;
-
-        yRotacion += mouseX;
-        xRotacion -= mouseY;
-        xRotacion = Mathf.Clamp(xRotacion, -96f,-96f);
-
-        //rotacion de la camara y orientacion 
-
-        transform.rotation= Quaternion.Euler(xRotacion, yRotacion, 0);
-        orientacion.rotation =Quaternion.Euler(0, yRotacion, 0);    
-         
+    private void FixedUpdate(){
+       MovePlayer(); 
     }
+
+    private void MyInput()
+    {
+        horzontalInput = Input.GetAxisRaw ("Horizontal");
+        verticalInput = Input.GetAxisRaw ("Vertical");
+    }
+
+    private void MovePlayer()
+    {
+        //calcular el movimiento de la direccion que nos moveremos
+        moveDirection=orientation.forward * verticalInput + orientation.right * horzontalInput;
+        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+    }
+
+    
 
 
 }
