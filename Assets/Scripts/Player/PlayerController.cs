@@ -1,48 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
-public class movJugador : MonoBehaviour
-{
-    [Header("Movement")]
-    public float moveSpeed;
-    public Transform orientation;
-    float horzontalInput;
-    float verticalInput;
-    Vector3 moveDirection;
-    Rigidbody rb;
+    public class PlayerController : MonoBehaviour{
 
-    private void Start()
-    {
-        rb =GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-    }
-    
-    private void Update ()
-    {
-        MyInput();
-    }
+        float speed =5f;
+        void Update(){
 
-    private void FixedUpdate(){
-       MovePlayer(); 
-    }
-
-    private void MyInput()
-    {
-        horzontalInput = Input.GetAxisRaw ("Horizontal");
-        verticalInput = Input.GetAxisRaw ("Vertical");
-    }
-
-    private void MovePlayer()
-    {
-        //calcular el movimiento de la direccion que nos moveremos
-        moveDirection=orientation.forward * verticalInput + orientation.right * horzontalInput;
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-    }
-
-    
-
-
-}
-
-
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        
+        Vector3 movementDirection = new Vector3(horizontalInput,0,verticalInput);
+        transform.position = transform.position + movementDirection * speed *Time.deltaTime;
+        }
+        
+    } 
