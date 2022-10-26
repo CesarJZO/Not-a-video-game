@@ -1,4 +1,6 @@
-﻿namespace Enemy
+﻿using UnityEngine;
+
+namespace Enemy
 {
     public class ChaseState : EnemyState
     {
@@ -8,5 +10,18 @@
         {
             
         }
+
+        public override void Update()
+        {
+            enemy.navMeshAgent.destination = enemy.player.position;
+        }
+
+        public override void FixedUpdate()
+        {
+            if (!enemy.PlayerDetector)
+                enemy.ChangeState(enemy.idleState);
+        }
+
+        public override string ToString() => nameof(ChaseState);
     }
 }

@@ -2,6 +2,7 @@
 {
     public abstract class State
     {
+        protected float stateTime;
         public virtual void Start() { }
         public virtual void Update() { }
         public virtual void FixedUpdate() { }
