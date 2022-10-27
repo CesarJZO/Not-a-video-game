@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         }
 
         isJump = Input.GetButtonDown("Jump");
-
+    
         if (isJump && floorDetected)
         {
             rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
